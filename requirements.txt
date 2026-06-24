@@ -1,7 +1,6 @@
-gradio>=4.44,<6
+gradio==4.44.1
 insightface>=0.7
 opencv-python>=4.8
 onnxruntime>=1.16
 numpy>=1.24
 requests>=2.31
-pyaudioop>=0.3
