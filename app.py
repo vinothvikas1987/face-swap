@@ -8,6 +8,28 @@ Run with:  python app.py
 """
 
 import os
+import sys
+
+# ── Monkey-patch: ensure HfFolder exists for Gradio's oauth module ──
+# Gradio (pre-v5) imports `HfFolder` from `huggingface_hub`, but newer
+# versions of the library have removed it.  We shim it here so the
+# import does not crash on Hugging Face Spaces.
+import huggingface_hub as _hf
+if not hasattr(_hf, "HfFolder"):
+    class _HfFolderShim:
+        @staticmethod
+        def get_token():
+            return os.environ.get("HF_TOKEN")
+        @staticmethod
+        def save_token(token: str) -> None:
+            pass
+        @staticmethod
+        def delete_token() -> None:
+            pass
+    _hf.HfFolder = _HfFolderShim
+    sys.modules["huggingface_hub.hf_folder"] = type(sys)("hf_folder")
+    sys.modules["huggingface_hub.hf_folder"].HfFolder = _HfFolderShim
+
 import cv2
 import numpy as np
 import gradio as gr
