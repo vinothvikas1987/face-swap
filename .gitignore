@@ -21,3 +21,10 @@ Thumbs.db
 
 # Environment
 .env
+
+# Debug / temp scripts
+*.pyc
+fix_*.py
+test_*.py
+*.log
+
