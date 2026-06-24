@@ -246,10 +246,20 @@ footer {visibility: hidden}
 """
 
 with gr.Blocks(css=css, title="Face Swap") as ui:
-    gr.Markdown(
-        "# Face Swap\n"
-        "Replace a specific person in a video with a face of your choice. "
-        "The script **tracks the target identity** across the whole video using face embeddings."
+    gr.HTML(
+        """
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:8px">
+            <span style="font-size:24px;font-weight:700">Face Swap</span>
+            <a href="https://github.com/vinothvikas1987/face-swap" target="_blank"
+               style="font-size:13px;color:#888;text-decoration:none">📖 Docs</a>
+            <a href="https://huggingface.co/spaces/vinothvikas1987/face-swap/tree/main" target="_blank"
+               style="font-size:13px;color:#888;text-decoration:none">📁 Files</a>
+        </div>
+        <p style="margin-top:0;color:#666">
+            Replace a specific person in a video with a face of your choice.
+            The script <strong>tracks the target identity</strong> across the whole video using face embeddings.
+        </p>
+        """
     )
 
     src_state = gr.State([])
