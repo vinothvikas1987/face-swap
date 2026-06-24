@@ -3,17 +3,19 @@ Face Swap — Identity-Locked Video Face Swapping
 
 Replaces a specific person in a video with a source face,
 tracking the target identity across frames using face embeddings.
+
+Run with:  python app.py
 """
 
 import os
 import cv2
 import numpy as np
 import gradio as gr
-import urllib.request
+import requests
 from pathlib import Path
 
 # ---------------------------------------------------------------------------
-# Model handling
+# Model handling — auto-download from Hugging Face
 # ---------------------------------------------------------------------------
 
 MODEL_DIR = Path(__file__).parent / "models"
@@ -25,12 +27,22 @@ MODEL_URLS = {
 def ensure_model(model_name: str) -> Path:
     """Download the model if it does not exist locally."""
     model_path = MODEL_DIR / model_name
-    if not model_path.exists():
-        MODEL_DIR.mkdir(parents=True, exist_ok=True)
-        url = MODEL_URLS[model_name]
-        print(f"Downloading {model_name} …")
-        urllib.request.urlretrieve(url, model_path)
-        print(f"Downloaded {model_name}")
+    if model_path.exists():
+        return model_path
+    MODEL_DIR.mkdir(parents=True, exist_ok=True)
+    url = MODEL_URLS[model_name]
+    print(f"Downloading {model_name} …")
+    r = requests.get(url, stream=True, timeout=300)
+    r.raise_for_status()
+    total = int(r.headers.get("content-length", 0))
+    downloaded = 0
+    with open(model_path, "wb") as f:
+        for chunk in r.iter_content(chunk_size=8192):
+            f.write(chunk)
+            downloaded += len(chunk)
+            if total:
+                print(f"\r  {100 * downloaded // total}%", end="", flush=True)
+    print(f"\nDownloaded {model_name}")
     return model_path
 
 
