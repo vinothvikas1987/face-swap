@@ -262,4 +262,4 @@ with gr.Blocks(css=css, title="Face Swap") as ui:
     )
 
 if __name__ == "__main__":
-    ui.launch(inbrowser=True)
+    ui.launch(server_name="0.0.0.0", server_port=7860)
