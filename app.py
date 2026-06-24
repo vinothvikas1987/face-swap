@@ -296,5 +296,42 @@ with gr.Blocks(css=css, title="Face Swap") as ui:
         outputs=[log, preview],
     )
 
+    with gr.Accordion("How to use", open=False):
+        gr.Markdown("""
+**1. Source** – Upload a front-facing photo of the person whose face you want to paste.  
+**2. Target** – Upload the video you want to edit.  
+**3. Select faces** – If multiple faces are detected, choose which ones via the *Face #* inputs.  
+**4. Tracking sensitivity** – Lower values (0.4–0.5) are stricter; higher (0.8–1.0) are looser. Default 0.6.  
+**5. Run** – Click *Run Swap*. Processing time depends on video length and hardware (GPU recommended).
+        """)
+
+    with gr.Accordion("Best results", open=False):
+        gr.Markdown("""
+| Scenario | Result |
+|---|---|
+| Front-facing source photo, person turns head | Good — embedding averaging handles pose changes |
+| Multiple people in video | Good — pick which identity to track |
+| 720p+ resolution | Best — detection is most reliable |
+| Similar lighting on source and target | Best — minimises colour mismatch |
+        """)
+
+    with gr.Accordion("Limitations", open=False):
+        gr.Markdown("""
+| Issue | Mitigation |
+|---|---|
+| CPU-only is 10–50× slower | Use a GPU, or reduce video resolution |
+| Fast head turns / motion blur | Lower sensitivity to 0.5–0.6 |
+| Extreme angles (top-down, behind head) | Unavoidable — needs a visible face |
+| Colour mismatch between source & target | Pre-process with colour-correction tools |
+| Occlusions (hands, sunglasses, mask) | Works partially; heavy occlusion degrades quality |
+| Very low resolution (<360p) | Upscale video first with ffmpeg |
+        """)
+
+    gr.Markdown(
+        "📖 [Full documentation](https://github.com/vinothvikas1987/face-swap) "
+        "· 🐛 [Report a bug](https://github.com/vinothvikas1987/face-swap/issues) "
+        "· MIT License"
+    )
+
 if __name__ == "__main__":
     ui.launch(server_name="0.0.0.0", server_port=7860)
