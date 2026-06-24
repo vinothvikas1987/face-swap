@@ -1,8 +1,21 @@
+---
+title: Face Swap
+emoji: 🎭
+colorFrom: blue
+colorTo: purple
+sdk: gradio
+sdk_version: 4.44.1
+app_file: app.py
+pinned: false
+license: mit
+---
+
 # Face Swap
 
 Replace a **specific person** in a video with a face of your choice. The script tracks the target identity across every frame using face embeddings, so it follows the person even as they turn, move, or change expression.
 
-![UI Screenshot](https://img.shields.io/badge/UI-Gradio-blue)
+[![GitHub](https://img.shields.io/badge/GitHub-vinothvikas1987/face--swap-181717?logo=github)](https://github.com/vinothvikas1987/face-swap)
+[![Hugging Face Space](https://img.shields.io/badge/Hugging%20Face-Space-FFD21E?logo=huggingface)](https://huggingface.co/spaces/vinothvikas1987/face-swap)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
